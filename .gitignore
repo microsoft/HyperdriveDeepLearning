@@ -102,3 +102,14 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#AML
+.azureml/
+
+# Products
+train.py
+torchdetect/
+cocoapi/
+dockerfile
+
+
