@@ -6,7 +6,6 @@ sys.path.append('./cocoapi/PythonAPI/')
 
 from PIL import Image
 import torch
-# import torch.utils.data
 import xml.etree.ElementTree as ET
 
 import torchvision
@@ -104,9 +103,9 @@ if __name__ == "__main__":
     parser.add_argument('--output_dir', 
                         default='outputs', help='path where to save')
     parser.add_argument('--anchor_sizes', 
-                        default=32, type=int, nargs='+', help='anchor sizes')
+                        default='16', type=str, help='anchor sizes')
     parser.add_argument('--anchor_aspect_ratios', 
-                        default= 1.0, type=float, nargs='+', help='anchor aspect ratios')
+                        default= '1.0', type=str, help='anchor aspect ratios')
     parser.add_argument('--rpn_nms_thresh', 
                         default= 0.7, type=float,  help='NMS threshold used for postprocessing the RPN proposals')
     parser.add_argument('--box_nms_thresh', 
@@ -162,8 +161,10 @@ in_features = model.roi_heads.box_predictor.cls_score.in_features
 # replace the pre-trained head with a new one
 model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
-anchor_sizes = tuple(args.anchor_sizes)
-anchor_aspect_ratios = tuple(args.anchor_aspect_ratios)
+anchor_sizes = args.anchor_sizes
+anchor_sizes = tuple([float(i) for i in anchor_sizes.split(',')])
+anchor_aspect_ratios = args.anchor_aspect_ratios
+anchor_aspect_ratios = tuple([float(i) for i in anchor_aspect_ratios.split(',')])
 
 # create an anchor_generator for the FPN which by default has 5 outputs
 anchor_generator = AnchorGenerator(
