@@ -107,9 +107,11 @@ venv.bak/
 .azureml/
 
 # Products
-train.py
 torchdetect/
-cocoapi/
 dockerfile
+*.pth
+scripts/JPEGImages/
+scripts/Annotations/
+scripts/cocoapi
 
 
