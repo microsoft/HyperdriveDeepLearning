@@ -22,7 +22,7 @@ The scenario uses a dataset which includes images of 4 and 8 ft retail store she
 
 ## Prerequisites
 
-1. Linux(Ubuntu).
+1. Linux (x64) with GPU enabled.
 2. [Anaconda Python](https://www.anaconda.com/download) installed.
 3. [Azure account](https://azure.microsoft.com).
 
