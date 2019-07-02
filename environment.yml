@@ -11,7 +11,7 @@ dependencies:
   - matplotlib=3.1.0
   - Cython=0.29.10
   - pip:
-    - azureml-sdk[notebooks]==1.0.41
+    - azureml-sdk[notebooks]
     - papermill==0.14.2
     - python-dotenv==0.10.1
     - azure-cli
