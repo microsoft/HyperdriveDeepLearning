@@ -9,11 +9,11 @@ from zipfile import ZipFile
 
 def get_auth(env_path):
     logger = logging.getLogger(__name__)
-    if get_key(env_path, 'password') != "YOUR_SERVICE_PRINCIPAL_PASSWORD":
+    if os.environ.get("AML_SP_PASSWORD", None):
         logger.debug("Trying to create Workspace with Service Principal")
-        aml_sp_password = get_key(env_path, 'password')
-        aml_sp_tennant_id = get_key(env_path, 'tenant_id')
-        aml_sp_username = get_key(env_path, 'username')
+        aml_sp_password = os.environ.get("AML_SP_PASSWORD")
+        aml_sp_tennant_id = os.environ.get("AML_SP_TENNANT_ID")
+        aml_sp_username = os.environ.get("AML_SP_USERNAME")
         auth = ServicePrincipalAuthentication(
             tenant_id=aml_sp_tennant_id,
             username=aml_sp_username,
