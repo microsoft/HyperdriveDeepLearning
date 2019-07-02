@@ -5,21 +5,20 @@
 
 ## Overview
 
-This scenario shows how to tune an object detection Mask RCNN model that can be deployed as a web service to provide predictions for empty spaces on store shelves. For this scenario, "Input Data" in the architecture diagram refers to images of retailer store shelves filled with products and empty spaces to be predicted by the model. The scenario is designed for Pytorch's torchvision library but can be generalized to any scenario that uses pytorch deep learning models to tune hyperparameters of these models.
+This scenario shows how to tune an object detection Mask RCNN model that can be deployed as a web service to provide predictions for empty spaces on store shelves. For this scenario, "Input Data" in the architecture diagram refers to images of retailer store shelves filled with products and empty spaces to be predicted by the model. The scenario is designed for Pytorch's torchvision library but can be generalized to any scenario to tune the hyperparameters of the models that use pytorch deep learning libraries. 
 
 ## Design
 
 ![alt text](Design.png "Design")
-The scenario uses a dataset which includes images of 4 and 8 ft retail store shelves filled with grocery products and bounding box annotations in the xml format for empty spaces on the shelves. It tunes a torchvision Mask RCNN model to predict the bounding box coordinates and their probabilities for empty spaces on the shelves.
+The scenario uses a dataset which includes images of 4 and 8 ft retail store shelves filled with grocery products and bounding box annotations for empty spaces on the shelves in xml format. It tunes a torchvision Mask RCNN model to predict the bounding box coordinates and probabilities of empty spaces on the shelves. The application flow of this architecture is as follows:
 
-1. Create an Azure ML Service workspace.
+1. Configure Azure Machine Learning (Azure ML) service.
 2. Create an Azure ML Compute cluster.
 3. Upload training and test data to Azure Storage.
 4. Configure a HyperDrive random parameter search.
-5. Submit the search.
-6. Monitor until complete.
-7. Retrieve the best set of hyperparameters.
-8. Register the best model.
+5. Submit the search and monitor until complete.
+6. Retrieve the best set of hyperparameters.
+7. Register the best model.
 
 ## Prerequisites
 
@@ -36,6 +35,11 @@ which addresses the first three prerequisites.
 To set up your environment to run these notebooks, please follow these steps.  They setup the notebooks to use Azure seamlessly.
 
 1. Create a _Linux_ _Ubuntu_ DSVM.
+2. Add your user to the docker group:
+    ```
+    sudo usermod -aG docker $USER
+    newgrp docker
+    ```
 2. Clone, fork, or download the zip file for this repository:
    ```
    git clone https://github.com/microsoft/HyperdriveDeepLearning.git
@@ -44,30 +48,32 @@ To set up your environment to run these notebooks, please follow these steps.  T
    ```
    cd HyperdriveDeepLearning
    ```
-4. Clone COCO API under scripts folder and install:
-    ```
-    cd scripts
-    git clone https://github.com/cocodataset/cocoapi.git
-    cd cocoapi/PythonAPI
-    make
-    ```
-5. Create the Python virtual environment using the environment.yml:
+4. Create the Python virtual environment using the environment.yml:
    ```
    conda env create -f environment.yml
    ```
 5. Activate the TorchDetectAML virtual environment:
    ```
    conda activate TorchDetectAML
+   ```
+6. Clone COCO API under scripts folder and install:
+    ```
+    cd scripts
+    git clone https://github.com/cocodataset/cocoapi.git
+    cd cocoapi/PythonAPI
+    make
+    cd ../../..
+    ```
    
-6. Login to Azure:
+7. Login to Azure:
    ```
    az login
    ```
-7. If you have more than one Azure subscription, select it:
+8. If you have more than one Azure subscription, select it:
    ```
    az account set --subscription <Your Azure Subscription>
    ```
-8. Start the Jupyter notebook server in the virtual environment:
+9. Start the Jupyter notebook server in the virtual environment:
    ```
    jupyter notebook
    ```

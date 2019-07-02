@@ -14,4 +14,4 @@ dependencies:
     - azureml-sdk[notebooks]==1.0.41
     - papermill==0.14.2
     - python-dotenv==0.10.1
-    - azure-cli==2.0.52
+    - azure-cli

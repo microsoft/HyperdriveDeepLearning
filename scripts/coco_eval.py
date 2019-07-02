@@ -1,4 +1,3 @@
-
 # Original source: https://github.com/pytorch/vision/blob/master/references/detection/coco_eval.py
 
 import json
