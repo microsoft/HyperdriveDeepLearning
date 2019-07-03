@@ -53,11 +53,39 @@ jobs:
 
   - bash: |
       source activate TorchDetectAML
-      
       echo Executing 00_AMLConfiguration_output.ipynb
       papermill 00_AMLConfiguration.ipynb 00_AMLConfiguration_output.ipynb --log-output --no-progress-bar -k python3 -p subscription_id $(subscriptionid) -p resource_group $(azureresourcegroup) -p workspace_name $(workspacename) -p workspace_region $(azureregion)
     displayName: '00_AMLConfiguration_output.ipynb'
 
+  - bash: |
+      source activate TorchDetectAML
+      echo Executing 01_PrepareTrainingScript.ipynb
+      papermill 01_PrepareTrainingScript.ipynb 01_PrepareTrainingScript_output.ipynb --log-output --no-progress-bar -k python3
+    displayName: '01_PrepareTrainingScript.ipynb'
+
+  - bash: |
+      source activate TorchDetectAML
+      echo Executing 02_PytorchEstimatorLocalRun.ipynb
+      papermill 02_PytorchEstimatorLocalRun.ipynb 02_PytorchEstimatorLocalRun_output.ipynb --log-output --no-progress-bar -k python3 -p num_epochs 1
+    displayName: '02_PytorchEstimatorLocalRun.ipynb'
+
+  - bash: |
+      source activate TorchDetectAML
+      echo Executing 03_BuildDockerImage.ipynb
+      papermill 03_BuildDockerImage.ipynb 03_BuildDockerImage_output.ipynb --log-output --no-progress-bar -k python3 -p image_name 'torchdet' -p acr_resource_group $(azureresourcegroup) -p acr_location $(azureregion) -p acr_name $(acrname)
+    displayName: '03_BuildDockerImage.ipynb'
+
+  - bash: |
+      source activate TorchDetectAML
+      echo Executing 04_TuneHyperparameters.ipynb
+      papermill 04_TuneHyperparameters.ipynb 04_TuneHyperparameters_output.ipynb --log-output --no-progress-bar -k python3 -p cluster_name  $(clustername) -p num_epochs 4 -p max_total_runs 4
+    displayName: '04_TuneHyperparameters.ipynb'
+
+  - bash: |
+      source activate TorchDetectAML
+      echo Executing 05_TearDown.ipynb
+      papermill 05_TearDown.ipynb 05_TearDown_output.ipynb --log-output --no-progress-bar -k python3
+    displayName: '05_TearDown.ipynb'
 
   - bash: |
       echo Remove All Docker Containers
