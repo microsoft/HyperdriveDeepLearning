@@ -27,4 +27,39 @@ jobs:
 
       az login -t $(sptenent) --service-principal -u $(spidentity) --password $(spsecret)
       az account set --subscription $(subscriptionid)
-    displayName: 'Build Configuration'
+    displayName: 'Azure Login SP'
+
+  - bash: |
+      echo Remove All Docker Containers
+      docker stop $(docker ps -a -q)
+      docker rm $(docker ps -a -q)
+      docker rmi $(docker images -q)
+
+      echo Remove Conda Environment
+      #conda remove -n TorchDetectAML --all -q --force -y
+      conda env list
+
+      echo Ensure Resource Group Deletion
+      existResponse=$(az group exists -n $(azureresourcegroup))
+      if [ "$existResponse" == "true" ]; then
+        echo Deleting project resource group
+        az group delete --name $(azureresourcegroup) --yes
+      else
+        echo Project resource group did not exist
+      fi
+      echo Done Cleanup
+    displayName: 'Cleanup Task'
+    condition: always()
+
+  - task: CreateWorkItem@1
+    inputs:
+      workItemType: 'Issue'
+      title: $(System.TeamProject) - Build $(Build.BuildNumber) Failed
+      assignedTo: 'Fidan Boylu Uz <fboylu@microsoft.com>'
+      associate: true
+      teamProject: $(System.TeamProject)
+
+      fieldMappings: |
+        Description=Branch: Branch $(Build.SourceBranch) failed to build. Go to Boards>WorkItems and tag the failure type.
+    displayName: 'Create work item on failure'
+    condition: failed()    
