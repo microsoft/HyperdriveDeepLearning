@@ -23,15 +23,14 @@ jobs:
     displayName: 'Builds source for https://github.com/microsoft/HyperdriveDeepLearning/'
 
   - bash: |
-      source /usr/share/miniconda/etc/profile.d/conda.sh
-
       #sudo usermod -aG docker $USER
       #newgrp docker
 
       echo Create Conda Environment
       conda env create -f environment.yml
 
-      conda activate TorchDetectAML
+      conda env list
+      source activate TorchDetectAML
       conda env list
       
       echo Get Data Files 
