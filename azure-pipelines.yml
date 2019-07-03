@@ -47,10 +47,17 @@ jobs:
       source activate TorchDetectAML
       
       echo Login Azure Account
-
       az login -t $(sptenent) --service-principal -u $(spidentity) --password $(spsecret)
       az account set --subscription $(subscriptionid)
     displayName: 'Azure Login SP'
+
+  - bash: |
+      source activate TorchDetectAML
+      
+      echo Executing 00_AMLConfiguration_output.ipynb
+      papermill 00_AMLConfiguration.ipynb 00_AMLConfiguration_output.ipynb --log-output --no-progress-bar -k python3 -p subscription_id $(subscriptionid) -p resource_group $(azureresourcegroup) -p workspace_name $(workspacename) -p workspace_region $(azureregion)
+    displayName: '00_AMLConfiguration_output.ipynb'
+
 
   - bash: |
       echo Remove All Docker Containers
