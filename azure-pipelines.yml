@@ -23,6 +23,26 @@ jobs:
     displayName: 'Builds source for https://github.com/microsoft/HyperdriveDeepLearning/'
 
   - bash: |
+      source /usr/share/miniconda/etc/profile.d/conda.sh
+
+      sudo usermod -aG docker $USER
+      newgrp docker
+
+      echo Create Conda Environment
+      conda env create -f environment.yml
+
+      conda activate TorchDetectAML
+      conda env list
+      
+      echo Get Data Files 
+      cd scripts
+      git clone https://github.com/cocodataset/cocoapi.git
+      cd cocoapi/PythonAPI
+      make
+      cd ../../..
+    displayName: 'Prepare Environment'
+
+  - bash: |
       dir
       
       echo Login Azure Account
