@@ -25,8 +25,8 @@ jobs:
   - bash: |
       source /usr/share/miniconda/etc/profile.d/conda.sh
 
-      sudo usermod -aG docker $USER
-      newgrp docker
+      #sudo usermod -aG docker $USER
+      #newgrp docker
 
       echo Create Conda Environment
       conda env create -f environment.yml
