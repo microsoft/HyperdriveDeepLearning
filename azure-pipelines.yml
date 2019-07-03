@@ -26,6 +26,8 @@ jobs:
       #sudo usermod -aG docker $USER
       #newgrp docker
 
+      conda remove -n TorchDetectAML --all -q --force -y
+
       echo Create Conda Environment
       conda env create -f environment.yml
 
@@ -42,7 +44,7 @@ jobs:
     displayName: 'Prepare Environment'
 
   - bash: |
-      dir
+      source activate TorchDetectAML
       
       echo Login Azure Account
 
@@ -57,7 +59,7 @@ jobs:
       docker rmi $(docker images -q)
 
       echo Remove Conda Environment
-      #conda remove -n TorchDetectAML --all -q --force -y
+      conda remove -n TorchDetectAML --all -q --force -y
       conda env list
 
       echo Ensure Resource Group Deletion
