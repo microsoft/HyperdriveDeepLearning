@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/customai/HyperdriveDeepLearning/_apis/build/status/microsoft.HyperdriveDeepLearning?branchName=master)
+![Build Status](https://dev.azure.com/customai/HyperdriveDeepLearning/_apis/build/status/microsoft.HyperdriveDeepLearning?branchName=master)
 
 ### Author: Fidan Boylu Uz
 
