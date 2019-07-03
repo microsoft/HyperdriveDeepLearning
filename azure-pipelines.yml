@@ -1,0 +1,30 @@
+# Pipeline for testing AKSDeploymentTutorialAML
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - staging
+
+variables:
+- group: AzureKeyVault
+
+jobs:
+- job: AKSDeployAMLJob
+  timeoutInMinutes: 300
+  cancelTimeoutInMinutes: 2
+  pool:
+    name: AKSDeployment
+    vmImage: 'GpuSelfHostedAgent'
+
+  steps:
+  - script: echo Hello, HyperdriveDeepLearning!
+    displayName: 'Builds source for https://github.com/microsoft/HyperdriveDeepLearning/'
+
+  - bash: |
+      echo Login Azure Account
+
+      az login -t $(sptenent) --service-principal -u $(spidentity) --password $(spsecret)
+      az account set --subscription $(subscriptionid)
+    displayName: 'Build Configuration'
