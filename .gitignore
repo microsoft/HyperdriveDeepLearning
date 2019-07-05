@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+condaenv.suf93p7x.requirements.txt
