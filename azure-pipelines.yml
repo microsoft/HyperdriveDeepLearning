@@ -78,7 +78,7 @@ jobs:
   - bash: |
       source activate TorchDetectAML
       echo Executing 04_TuneHyperparameters.ipynb
-      papermill 04_TuneHyperparameters.ipynb 04_TuneHyperparameters_output.ipynb --log-output --no-progress-bar -k python3 -p cluster_name  $(clustername) -p num_epochs 4 -p max_total_runs 4
+      papermill 04_TuneHyperparameters.ipynb 04_TuneHyperparameters_output.ipynb --log-output --no-progress-bar -k python3 -p cluster_name  $(clustername) -p num_epochs 1 -p max_total_runs 2
     displayName: '04_TuneHyperparameters.ipynb'
 
   - bash: |
