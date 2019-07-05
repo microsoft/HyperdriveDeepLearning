@@ -84,7 +84,9 @@ jobs:
   - bash: |
       source activate TorchDetectAML
       echo Executing 05_TearDown.ipynb
-      papermill 05_TearDown.ipynb 05_TearDown_output.ipynb --log-output --no-progress-bar -k python3
+      echo TearDown only removes resource groups (without --yes flag) and docker image.
+      echo The clean up task here does the same thing, ignoring 05_TearDown.ipynb
+      # papermill 05_TearDown.ipynb 05_TearDown_output.ipynb --log-output --no-progress-bar -k python3
     displayName: '05_TearDown.ipynb'
 
   - bash: |
