@@ -10,7 +10,7 @@ trigger:
 pr: none
 
 schedules:
-- cron: "15 15 * * *"
+- cron: "0 5 * * 2"
   displayName: Weekly Tuesday Build
   branches:
     include:
