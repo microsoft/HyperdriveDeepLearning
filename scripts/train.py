@@ -13,7 +13,7 @@ from engine import train_one_epoch, evaluate
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PyTorch Object Detection Training")
     parser.add_argument(
-        "--data_path", default="./BuildData/", help="the path to the dataset"
+        "--data_path", default="./Data/", help="the path to the dataset"
     )
     parser.add_argument("--batch_size", default=2, type=int)
     parser.add_argument(
