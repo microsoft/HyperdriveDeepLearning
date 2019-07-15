@@ -11,7 +11,7 @@ This scenario shows how to tune an object detection Mask RCNN model that can be 
 ## Design
 
 ![alt text](Design.png "Design")
-The scenario uses a dataset which includes images of 4 and 8 ft retail store shelves filled with grocery products and bounding box annotations for empty spaces on the shelves in xml format. It tunes a torchvision Mask RCNN model to predict the bounding box coordinates and probabilities of empty spaces on the shelves. The application flow of this architecture is as follows:
+The scenario uses a dataset which includes images of 4 and 8 ft retail store shelves filled with grocery products and bounding box annotations for empty spaces on the shelves in xml format (This dataset is distributed under the [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.) It tunes a torchvision Mask RCNN model to predict the bounding box coordinates and probabilities of empty spaces on the shelves. The application flow of this architecture is as follows:
 
 1. Configure Azure Machine Learning (Azure ML) service.
 2. Create an Azure ML Compute cluster.
@@ -27,7 +27,7 @@ The scenario uses a dataset which includes images of 4 and 8 ft retail store she
 2. [Anaconda Python](https://www.anaconda.com/download) installed.
 3. [Azure account](https://azure.microsoft.com).
 
-The tutorial was developed on an [Azure Ubuntu
+The tutorial was developed on an NC series [Azure Ubuntu
 DSVM](https://docs.microsoft.com/en-us/azure/machine-learning/data-science-virtual-machine/dsvm-ubuntu-intro),
 which addresses the first three prerequisites.
 
