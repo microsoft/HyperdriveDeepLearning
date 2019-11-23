@@ -8,14 +8,15 @@ resources:
 
 variables:
   CloudPlatform: AzureCloud
-  TridentWorkloadType: ai-dl-bat-int
-  TridentWorkloadTypeShort: aidlbat
+  TridentWorkloadType: ai-dl-score-int
+  TridentWorkloadTypeShort: aidlscore
   DeployLocation: eastus
   azureSubscription: AG-AzureCAT-AIDevOps-Test-COGSNonProd-IO1685734(0ca618d2-22a8-413a-96d0-0f1b531129c3)
   azure_subscription: 0ca618d2-22a8-413a-96d0-0f1b531129c3
   TestPostfix: ""
-  DeploymentName: DLBatchDeployAMLJob
-  PythonPath: ""
+  DeploymentName: DLScoreDeployJob
+  ProjectLocation: "."
+  PythonPath: "."
   Agent: "agce-ai"
 
 # In additional to the above variables, the "template" parameter of the last step must also be hard coded for each workload
@@ -40,7 +41,9 @@ jobs:
 
   variables:
     DeploymentGuidTag: $[ dependencies.build_relayer_sources.outputs['GenDeployGuidTag.DeploymentGuid'] ]
+    DeploymentTimeStamp: $[ dependencies.build_relayer_sources.outputs['GenDeployTimeStamp.timeStamp'] ]
     EnvironmentPrefix: $(TridentWorkloadType)-$(CloudPlatform)-$(DeployLocation)$(TestPostfix)
+    ResourcePrefix: $(TridentWorkloadTypeShort)-$(DeployLocation)$(TestPostfix)
     EnvironmentContext: $(EnvironmentPrefix)-$(DeploymentGuidTag)
     AIResourceGroupName: $(TridentWorkloadTypeShort)-$(DeployLocation)$(TestPostfix)
 
@@ -56,7 +59,7 @@ jobs:
   - template: .ci/steps/deploy_notebook_steps.yml@aitemplates
     parameters:
       deployment_name: $(DeploymentName)
-      template: DLBatchDeployAMLJob.yml
+      template: DLScoreDeployJob.yml
       azureSubscription: $(azureSubscription)
       azure_subscription: $(azure_subscription)
       azureresourcegroup: $(AIResourceGroupName)
@@ -72,5 +75,5 @@ jobs:
       deploymentguidtag: $(DeploymentGuidTag)
       aks_name: $(TridentWorkloadTypeShort)$(Deploy_Location_Short)
       python_path: $(System.DefaultWorkingDirectory)$(PythonPath)
-      location: "."
+      location: $(ProjectLocation)
       python_secret_root: "./"
