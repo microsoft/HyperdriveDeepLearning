@@ -4,6 +4,7 @@ resources:
     - repository: aitemplates
       type: github
       name: microsoft/AI
+      # The endpoint must be created for the ADO Workspace
       endpoint: AIArchitecturesAndPractices-GitHub
 
 variables:
