@@ -10,14 +10,16 @@ variables:
   CloudPlatform: AzureCloud
   TridentWorkloadType: ai-dl-train-int
   TridentWorkloadTypeShort: aidltrain
-  DeployLocation: eastus
-  azureSubscription: AG-AzureCAT-AIDevOps-Test-COGSNonProd-IO1685734(0ca618d2-22a8-413a-96d0-0f1b531129c3)
-  azure_subscription: 0ca618d2-22a8-413a-96d0-0f1b531129c3
+  DeployLocation: eastus  
   TestPostfix: ""
   DeploymentName: DLTrainDeployJob
   ProjectLocation: "."
   PythonPath: "."
-  Agent: "agce-ai"
+
+  # The following variables must be set as build paramters and be configured by the user
+  azureSubscription: $(AzureSubscriptionName)
+  azure_subscription: $(AzureSubscriptionID)
+  Agent: $(Agent_Name)
 
 # In additional to the above variables, the "template" parameter of the last step must also be hard coded for each workload
 
@@ -35,6 +37,7 @@ jobs:
 
   pool:
     name: $(Agent)
+    demands: GPU
 
   workspace:
     clean: all
