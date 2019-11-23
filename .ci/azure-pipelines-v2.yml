@@ -8,13 +8,13 @@ resources:
 
 variables:
   CloudPlatform: AzureCloud
-  TridentWorkloadType: ai-dl-score-int
-  TridentWorkloadTypeShort: aidlscore
+  TridentWorkloadType: ai-dl-train-int
+  TridentWorkloadTypeShort: aidltrain
   DeployLocation: eastus
   azureSubscription: AG-AzureCAT-AIDevOps-Test-COGSNonProd-IO1685734(0ca618d2-22a8-413a-96d0-0f1b531129c3)
   azure_subscription: 0ca618d2-22a8-413a-96d0-0f1b531129c3
   TestPostfix: ""
-  DeploymentName: DLScoreDeployJob
+  DeploymentName: DLTrainDeployJob
   ProjectLocation: "."
   PythonPath: "."
   Agent: "agce-ai"
@@ -59,7 +59,7 @@ jobs:
   - template: .ci/steps/deploy_notebook_steps.yml@aitemplates
     parameters:
       deployment_name: $(DeploymentName)
-      template: DLScoreDeployJob.yml
+      template: DLTrainDeployJob.yml
       azureSubscription: $(azureSubscription)
       azure_subscription: $(azure_subscription)
       azureresourcegroup: $(AIResourceGroupName)
