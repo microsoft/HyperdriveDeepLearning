@@ -60,6 +60,13 @@ jobs:
       echo "##vso[task.setvariable variable=Deploy_Location_Short]$Deploy_Location_Short"
     displayName: "Create short name for AKS"
 
+  - bash: |
+      wget https://bostondata.blob.core.windows.net/builddata/Data.zip
+      unzip Data.zip
+      mv ./Data/JPEGImages ./
+      mv ./Data/Annotations ./
+
+
   - template: .ci/steps/deploy_notebook_steps.yml@aitemplates
     parameters:
       deployment_name: $(DeploymentName)
