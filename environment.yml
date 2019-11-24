@@ -17,3 +17,4 @@ dependencies:
     - python-dotenv==0.10.1
     - azure-cli
     - git+https://github.com/Microsoft/StatisticsTracker
+    - pycocotools
