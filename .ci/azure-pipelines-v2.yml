@@ -21,6 +21,7 @@ variables:
   azureSubscription: $(AzureSubscriptionName)
   azure_subscription: $(AzureSubscriptionID)
   Agent: $(Agent_Name)
+  cluster_name: "dltraincompute"
 
 # In additional to the above variables, the "template" parameter of the last step must also be hard coded for each workload
 
@@ -89,3 +90,4 @@ jobs:
       location: $(ProjectLocation)
       python_secret_root: "./"
       acr_name: "aidltune"
+      cluster_name: $(cluster_name)
