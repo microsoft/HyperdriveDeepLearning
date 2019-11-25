@@ -89,4 +89,3 @@ jobs:
       location: $(ProjectLocation)
       python_secret_root: "./"
       acr_name: "aidltune"
-      cluster_name: "aidltune"
