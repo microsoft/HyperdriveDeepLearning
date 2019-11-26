@@ -108,6 +108,7 @@ venv.bak/
 
 # Products
 torchdetect/
+registermodel/
 dockerfile
 *.pth
 scripts/JPEGImages/
