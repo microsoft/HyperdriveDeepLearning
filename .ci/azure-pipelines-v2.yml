@@ -19,6 +19,7 @@ stages:
 - template: .ci/stages/deploy_notebooks_stages_v2.yml@aitemplates
   parameters:
     Agent: $(Agent_Name)
+    Demands: GPU
     jobDisplayName: DLScoreDeployJob
     DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)
     workload_vars: ../vars/dlhyperparametertuning_vars.yml
