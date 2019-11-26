@@ -114,6 +114,7 @@ dockerfile
 scripts/JPEGImages/
 scripts/Annotations/
 scripts/cocoapi
+scripts/Data
 scripts/License.txt
 
 
