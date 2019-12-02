@@ -12,7 +12,7 @@ dependencies:
   - Cython=0.29.10
   - pip:
     - prompt_toolkit==2.0.9
-    - azureml-sdk[notebooks, contrib]==1.0.57
+    - azureml-sdk[notebooks, contrib]
     - papermill==1.1.0
     - python-dotenv==0.10.1
     - azure-cli
