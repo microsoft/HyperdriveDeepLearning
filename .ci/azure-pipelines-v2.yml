@@ -1,91 +1,41 @@
-# MLAKSDeploy Pipeline
+# DL Hyperparameter Tuning and Training Pipeline
+#
+# A Github Service Connection must also be created with the name "AIArchitecturesAndPractices-GitHub"
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/demands?view=azure-devops&tabs=yaml
+#
+# An Agent_Name Variable must be creating in the Azure DevOps UI. 
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#secret-variables
+#
+# This must point to an Agent Pool, with a Self-Hosted Linux VM with a GPU.
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops
+# 
+# A "Demand" must be set on the GPU VM. This enables a mixed VM pool. The Demand should be GPU=True
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/demands?view=azure-devops&tabs=yaml
+
 resources:
   repositories:
     - repository: aitemplates
       type: github
       name: microsoft/AI
-      # The endpoint must be created for the ADO Workspace
       endpoint: AIArchitecturesAndPractices-GitHub
-
-variables:
-  CloudPlatform: AzureCloud
-  TridentWorkloadType: ai-dl-train-int
-  TridentWorkloadTypeShort: aidltrain
-  DeployLocation: eastus  
-  TestPostfix: ""
-  DeploymentName: DLTrainDeployJob
-  ProjectLocation: "."
-  PythonPath: "."
-
-  # The following variables must be set as build paramters and be configured by the user
-  azureSubscription: $(AzureSubscriptionName)
-  azure_subscription: $(AzureSubscriptionID)
-  Agent: $(Agent_Name)
-
-# In additional to the above variables, the "template" parameter of the last step must also be hard coded for each workload
 
 trigger:
   batch: true
   branches:
     include:
-    - master
+    - mabou/instrument
 
-jobs:
-- job: build_deploy_ai
-  displayName: 'Build deploy AI'
+pr:
+  autoCancel: true
+  branches:
+    include:
+    - mabou/instrument
 
-  timeoutInMinutes: 180
-
-  pool:
-    name: $(Agent)
-    demands: GPU
-
-  workspace:
-    clean: all
-
-  variables:
-    DeploymentGuidTag: $[ dependencies.build_relayer_sources.outputs['GenDeployGuidTag.DeploymentGuid'] ]
-    DeploymentTimeStamp: $[ dependencies.build_relayer_sources.outputs['GenDeployTimeStamp.timeStamp'] ]
-    EnvironmentPrefix: $(TridentWorkloadType)-$(CloudPlatform)-$(DeployLocation)$(TestPostfix)
-    ResourcePrefix: $(TridentWorkloadTypeShort)-$(DeployLocation)$(TestPostfix)
-    EnvironmentContext: $(EnvironmentPrefix)-$(DeploymentGuidTag)
-    AIResourceGroupName: $(TridentWorkloadTypeShort)-$(DeployLocation)$(TestPostfix)
-
-  steps:
-
-  - template: .ci/steps/docker_clean.yml@aitemplates
-
-  - bash: |
-      Deploy_Location_Short=$(echo $DeployLocation | cut -c1-12)
-      echo "##vso[task.setvariable variable=Deploy_Location_Short]$Deploy_Location_Short"
-    displayName: "Create short name for AKS"
-
-  - bash: |
-      wget https://bostondata.blob.core.windows.net/builddata/Data.zip
-      unzip Data.zip
-      mv ./Data/JPEGImages ./scripts/
-      mv ./Data/Annotations ./scripts/
-
-
-  - template: .ci/steps/deploy_notebook_steps.yml@aitemplates
-    parameters:
-      deployment_name: $(DeploymentName)
-      template: DLTrainDeployJob.yml
-      azureSubscription: $(azureSubscription)
-      azure_subscription: $(azure_subscription)
-      azureresourcegroup: $(AIResourceGroupName)
-      workspacename: $(TridentWorkloadTypeShort)-$(DeployLocation)
-      azureregion: $(DeployLocation)
-      aksimagename: myimage
-      environment: $(EnvironmentContext)
-      doCleanup: False
-      alias: $(Build.QueuedBy)
-      project: $(TridentWorkloadTypeShort)
-      agent: $(Agent)
-      ENVIRONMENT_PREFIX: $(EnvironmentPrefix)
-      deploymentguidtag: $(DeploymentGuidTag)
-      aks_name: $(TridentWorkloadTypeShort)$(Deploy_Location_Short)
-      python_path: $(System.DefaultWorkingDirectory)$(PythonPath)
-      location: $(ProjectLocation)
-      python_secret_root: "./"
-      acr_name: "aidltune"
+stages:
+- template: .ci/stages/deploy_notebooks_stages_v2.yml@aitemplates
+  parameters:
+    Agent: $(Agent_Name)
+    Demands: GPU
+    jobDisplayName: DLScoreDeployJob
+    DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)
+    workload_vars: ../vars/dlhyperparametertuning_vars.yml
