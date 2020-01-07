@@ -99,9 +99,6 @@ jobs:
       conda remove -n TorchDetectAML --all -q --force -y
       conda env list
 
-      echo Clean /tmp
-      sudo rm -fr /tmp
-
       echo Ensure Resource Group Deletion
       existResponse=$(az group exists -n $(azureresourcegroup))
       if [ "$existResponse" == "true" ]; then
