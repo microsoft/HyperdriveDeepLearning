@@ -20,6 +20,10 @@ jobs:
     name: AKSDeployment
     vmImage: 'GpuSelfHostedAgent'
 
+  strategy:
+    maxParallel: 1
+    matrix: {"eastus": {"azureregion": "eastus", "azureresourcegroup" : "hddeeplearneastus"},"southcentralus": {"azureregion": "southcentralus", "azureresourcegroup" : "hddeeplearnsouthctrl" },"westus2": {"azureregion": "westus2", "azureresourcegroup" : "hddeeplearnwestus"}}
+
   steps:
   - script: echo Hello, HyperdriveDeepLearning!
     displayName: 'Builds source for https://github.com/microsoft/HyperdriveDeepLearning/'
