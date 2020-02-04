@@ -24,12 +24,14 @@ trigger:
   branches:
     include:
     - mabou/instrument
+    - master
 
 pr:
   autoCancel: true
   branches:
     include:
     - mabou/instrument
+    - master
 
 stages:
 - template: .ci/stages/deploy_notebooks_stages_v2.yml@aitemplates
